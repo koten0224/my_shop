@@ -1,0 +1,11 @@
+2020-09-08 00:36:42.612 CST [12185] LOG:  starting PostgreSQL 12.4 on x86_64-apple-darwin19.5.0, compiled by Apple clang version 11.0.3 (clang-1103.0.32.62), 64-bit
+2020-09-08 00:36:42.614 CST [12185] LOG:  listening on IPv6 address "::1", port 5432
+2020-09-08 00:36:42.614 CST [12185] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2020-09-08 00:36:42.614 CST [12185] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2020-09-08 00:36:42.648 CST [12186] LOG:  database system was interrupted; last known up at 2020-07-30 18:08:52 CST
+2020-09-08 00:36:42.949 CST [12186] LOG:  database system was not properly shut down; automatic recovery in progress
+2020-09-08 00:36:42.955 CST [12186] LOG:  redo starts at 0/344E688
+2020-09-08 00:36:42.955 CST [12186] LOG:  invalid record length at 0/344E770: wanted 24, got 0
+2020-09-08 00:36:42.955 CST [12186] LOG:  redo done at 0/344E738
+2020-09-08 00:36:42.968 CST [12185] LOG:  database system is ready to accept connections
+2020-09-08 00:37:56.664 CST [12534] FATAL:  database "my_shop_development" does not exist
