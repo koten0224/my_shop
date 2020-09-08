@@ -42,6 +42,12 @@ RSpec.describe User, type: :model do
       it {should_not allow_value('x1@x1._x1').for(:email)}
       it {should_not allow_value('x1@x1.-x1').for(:email)}
       it {should_not allow_value('x1..x1@x1.x1').for(:email)}
+      before do
+        create(:user, email: 'xx@xx.xx')
+      end
+      it 'should be invalid' do
+        expect(User.new(name: 'aa', email: 'xx@xx.xx')).not_to be_valid
+      end
     end
 
     context 'password' do
