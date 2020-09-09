@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_164532) do
+ActiveRecord::Schema.define(version: 2020_09_09_142656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "shop_roles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "shop_id", null: false
+    t.string "role"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["role"], name: "index_shop_roles_on_role"
+    t.index ["shop_id"], name: "index_shop_roles_on_shop_id"
+    t.index ["status"], name: "index_shop_roles_on_status"
+    t.index ["user_id"], name: "index_shop_roles_on_user_id"
+  end
+
+  create_table "shops", force: :cascade do |t|
+    t.string "name"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["status"], name: "index_shops_on_status"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -21,6 +42,9 @@ ActiveRecord::Schema.define(version: 2020_09_07_164532) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email"
   end
 
+  add_foreign_key "shop_roles", "shops"
+  add_foreign_key "shop_roles", "users"
 end
