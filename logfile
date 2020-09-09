@@ -9,3 +9,7 @@
 2020-09-08 00:36:42.955 CST [12186] LOG:  redo done at 0/344E738
 2020-09-08 00:36:42.968 CST [12185] LOG:  database system is ready to accept connections
 2020-09-08 00:37:56.664 CST [12534] FATAL:  database "my_shop_development" does not exist
+2020-09-10 00:11:32.804 CST [45924] ERROR:  missing FROM-clause entry for table "roles" at character 161
+2020-09-10 00:11:32.804 CST [45924] STATEMENT:  SELECT "shops".* FROM "shops" INNER JOIN "shop_roles" ON "shop_roles"."status" != $1 AND "shop_roles"."shop_id" = "shops"."id" WHERE "shops"."status" != $2 AND "roles"."role" = $3 LIMIT $4
+2020-09-10 00:12:06.516 CST [45924] ERROR:  missing FROM-clause entry for table "roles" at character 161
+2020-09-10 00:12:06.516 CST [45924] STATEMENT:  SELECT "shops".* FROM "shops" INNER JOIN "shop_roles" ON "shop_roles"."status" != $1 AND "shop_roles"."shop_id" = "shops"."id" WHERE "shops"."status" != $2 AND "roles"."role" = $3 LIMIT $4
