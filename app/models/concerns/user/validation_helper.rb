@@ -1,5 +1,5 @@
 class User
-  module Validation
+  module ValidationHelper
     def self.included(base)
       base.class_eval do
         validates :password, length: {in: 6..20}

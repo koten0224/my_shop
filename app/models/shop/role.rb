@@ -1,13 +1,15 @@
 class Shop
   class Role < ApplicationRecord
+    paranoid_status
     VALID_ROLES = %w(admin staff customer).freeze
-    attribute :status, default: 'active'
-    default_scope ->{where.not(status: 'removed')}
+    scope :admin, ->{where(role: 'admin')}
+    scope :staff, ->{where(role: 'staff')}
+    scope :customer, ->{where(role: 'customer')}
     belongs_to :user
     belongs_to :shop
     validates :user_id, :shop_id, :role, presence: true
-    validates :user_id, uniqueness: {scope: :shop}
-    validates :role, uniqueness: {scope: :shop}, if: ->{role=='admin'}
+    validates :user_id, uniqueness: {scope: [:shop, :status]}
+    validates :role, uniqueness: {scope: [:shop, :status]}, if: ->{role=='admin'}
     validates :role, inclusion: {in: VALID_ROLES}
   end
 end

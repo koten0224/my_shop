@@ -1,7 +1,7 @@
 class User
   class Session
     include ActiveModel::Model
-    include User::Validation
+    include ValidationHelper
     validate :authenticate
     attr_accessor :email, :password
     attr_reader :user
