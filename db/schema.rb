@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2020_09_09_142656) do
     t.bigint "user_id", null: false
     t.bigint "shop_id", null: false
     t.string "role"
-    t.string "status"
+    t.string "status", default: "active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["role"], name: "index_shop_roles_on_role"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2020_09_09_142656) do
 
   create_table "shops", force: :cascade do |t|
     t.string "name"
-    t.string "status"
+    t.string "status", default: "active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["status"], name: "index_shops_on_status"
@@ -42,7 +42,9 @@ ActiveRecord::Schema.define(version: 2020_09_09_142656) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status", default: "active"
     t.index ["email"], name: "index_users_on_email"
+    t.index ["status"], name: "index_users_on_status"
   end
 
   add_foreign_key "shop_roles", "shops"

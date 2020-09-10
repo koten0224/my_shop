@@ -1,14 +1,19 @@
 class User < ApplicationRecord
-  include User::Validation
+  include ValidationHelper
+  paranoid_status
   has_secure_password
   before_validation :auto_fill_password, if: ->{Rails.env.development?}
   validates :name, presence: true
   validates :name, length: {in: 2..50}
   validates :name, format: {with: ValidFormats::USER_NAME_REGEX}
   validates :email, uniqueness: true
-
-  has_many :shop_roles, class_name: 'Shop::Role'
-  has_many :shops, through: :shop_roles
+  has_many :shop_roles, class_name: 'Shop::Role', dependent: :destroy
+  has_many :own_shop_roles, ->{admin}, class_name: 'Shop::Role'
+  has_many :own_shops, through: :own_shop_roles, source: :shop
+  has_many :serve_shop_roles, ->{staff}, class_name: 'Shop::Role'
+  has_many :serve_shops, through: :serve_shop_roles, source: :shop
+  has_many :shopping_shop_roles, ->{customer}, class_name: 'Shop::Role'
+  has_many :shopping_shops, through: :shopping_shop_roles, source: :shop
 
   def auto_fill_password
     if password_digest.nil?
@@ -17,15 +22,7 @@ class User < ApplicationRecord
     end
   end
 
-  def own_shops
-    Shop.joins(:shop_roles).where(shop_roles: {role: 'admin'})
-  end
-
-  def serve_shops
-    Shop.joins(:shop_roles).where(shop_roles: {role: 'staff'})
-  end
-
-  def shopping_shops
-    Shop.joins(:shop_roles).where(shop_roles: {role: 'customer'})
+  def create_shop( attributes={} )
+    Shop.create(attributes.merge(admin: self))
   end
 end
