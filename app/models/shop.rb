@@ -2,13 +2,14 @@ class Shop < ApplicationRecord
   paranoid_status
   validates :name, presence: true
   validates :admin, presence: true, on: :create
-  has_many :shop_roles, class_name: 'Shop::Role', dependent: :destroy
+  has_many :roles, dependent: :destroy
+  has_many :users, through: :roles
   has_one :admin_role, ->{admin}, class_name: 'Shop::Role'
-  has_one :admin, through: :admin_role, source: :user, class_name: 'User'
+  has_one :admin, through: :admin_role, source: :user
   has_many :staff_roles, ->{staff}, class_name: 'Shop::Role'
-  has_many :staffs, through: :staff_roles, source: :user, class_name: 'User'
+  has_many :staffs, through: :staff_roles, source: :user
   has_many :customer_roles, ->{customer}, class_name: 'Shop::Role'
-  has_many :customers, through: :customer_roles, source: :user, class_name: 'User'
+  has_many :customers, through: :customer_roles, source: :user
   after_recover :recover_associations
 
   def recover_associations

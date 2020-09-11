@@ -1,16 +1,17 @@
 class User
-  class Session
-    include ActiveModel::Model
+  class Session < ApplicationRecord
     include ValidationHelper
+    paranoid_status
+    has_secure_token :token
     validate :authenticate
+    belongs_to :user
     attr_accessor :email, :password
-    attr_reader :user
     def authenticate
       user = User.find_by(email: @email)&.authenticate(@password)
       unless user
         errors[:authenticate] << 'invalid'
       else
-        @user = user
+        self.user = user
       end
     end
   end

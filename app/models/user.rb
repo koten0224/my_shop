@@ -3,10 +3,13 @@ class User < ApplicationRecord
   paranoid_status
   has_secure_password
   before_validation :auto_fill_password, if: ->{Rails.env.development?}
+  scope :token, ->(token){joins(:sessions).find_by(user_sessions: {token: token})}
+  after_create :create_shop
   validates :name, presence: true
   validates :name, length: {in: 2..50}
   validates :name, format: {with: ValidFormats::USER_NAME_REGEX}
   validates :email, uniqueness: true
+  has_many :sessions
   has_many :shop_roles, class_name: 'Shop::Role', dependent: :destroy
   has_many :own_shop_roles, ->{admin}, class_name: 'Shop::Role'
   has_many :own_shops, through: :own_shop_roles, source: :shop
@@ -22,7 +25,7 @@ class User < ApplicationRecord
     end
   end
 
-  def create_shop( attributes={} )
+  def create_shop( attributes={name: self.name} )
     Shop.create(attributes.merge(admin: self))
   end
 end

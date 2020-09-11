@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_09_142656) do
+ActiveRecord::Schema.define(version: 2020_09_11_163255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,17 @@ ActiveRecord::Schema.define(version: 2020_09_09_142656) do
     t.index ["status"], name: "index_shops_on_status"
   end
 
+  create_table "user_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token", null: false
+    t.string "status", default: "active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["status"], name: "index_user_sessions_on_status"
+    t.index ["token"], name: "index_user_sessions_on_token"
+    t.index ["user_id"], name: "index_user_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -49,4 +60,5 @@ ActiveRecord::Schema.define(version: 2020_09_09_142656) do
 
   add_foreign_key "shop_roles", "shops"
   add_foreign_key "shop_roles", "users"
+  add_foreign_key "user_sessions", "users"
 end
